@@ -107,7 +107,6 @@ network:
       match:
         macaddress: 08:00:27:20:d5:26
       set-name: enp0s3
-EOF
 ```
 
 **IP asignada:** `10.10.10.150/24`
