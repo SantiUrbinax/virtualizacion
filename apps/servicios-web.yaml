@@ -1,0 +1,252 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: parcial-asul
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: portal-html
+  namespace: parcial-asul
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Portal ASUL</title>
+    </head>
+    <body>
+      <h1>Portal ASUL</h1>
+      <p>Este servicio utiliza Kubernetes para el despliegue y Traefik para el enrutamiento.</p>
+    </body>
+    </html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal
+  namespace: parcial-asul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portal
+  template:
+    metadata:
+      labels:
+        app: portal
+    spec:
+      containers:
+        - name: portal
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          configMap:
+            name: portal-html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portal-service
+  namespace: parcial-asul
+spec:
+  selector:
+    app: portal
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalogo-html
+  namespace: parcial-asul
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Catalogo ASUL</title>
+    </head>
+    <body>
+      <h1>Catalogo ASUL</h1>
+      <p>Aplicacion web ejecutada en Kubernetes y publicada mediante Traefik.</p>
+    </body>
+    </html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogo
+  namespace: parcial-asul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogo
+  template:
+    metadata:
+      labels:
+        app: catalogo
+    spec:
+      containers:
+        - name: catalogo
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          configMap:
+            name: catalogo-html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogo-service
+  namespace: parcial-asul
+spec:
+  selector:
+    app: catalogo
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: noticias-html
+  namespace: parcial-asul
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Noticias ASUL</title>
+    </head>
+    <body>
+      <h1>Noticias ASUL</h1>
+      <p>Servicio administrado dentro del cluster de Kubernetes con acceso por medio de Traefik.</p>
+    </body>
+    </html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noticias
+  namespace: parcial-asul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: noticias
+  template:
+    metadata:
+      labels:
+        app: noticias
+    spec:
+      containers:
+        - name: noticias
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          configMap:
+            name: noticias-html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: noticias-service
+  namespace: parcial-asul
+spec:
+  selector:
+    app: noticias
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: soporte-html
+  namespace: parcial-asul
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Soporte ASUL</title>
+    </head>
+    <body>
+      <h1>Soporte ASUL</h1>
+      <p>Aplicacion desplegada en Kubernetes y expuesta mediante el controlador Traefik.</p>
+    </body>
+    </html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soporte
+  namespace: parcial-asul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soporte
+  template:
+    metadata:
+      labels:
+        app: soporte
+    spec:
+      containers:
+        - name: soporte
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          configMap:
+            name: soporte-html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: soporte-service
+  namespace: parcial-asul
+spec:
+  selector:
+    app: soporte
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

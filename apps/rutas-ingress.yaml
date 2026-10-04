@@ -1,0 +1,78 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portal-ingress
+  namespace: parcial-asul
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: portal.asul.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portal-service
+                port:
+                  number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: catalogo-ingress
+  namespace: parcial-asul
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: catalogo.asul.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: catalogo-service
+                port:
+                  number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: noticias-ingress
+  namespace: parcial-asul
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: noticias.asul.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: noticias-service
+                port:
+                  number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: soporte-ingress
+  namespace: parcial-asul
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: soporte.asul.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: soporte-service
+                port:
+                  number: 80
