@@ -1,0 +1,41 @@
+﻿apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: asul-web
+  namespace: argocd-asul
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/SantiUrbinax/virtualizacion.git
+    targetRevision: assessment-06
+    path: apps/asul-web
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: parcial-asul
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: asul-servicios
+  namespace: argocd-asul
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/SantiUrbinax/virtualizacion.git
+    targetRevision: assessment-06
+    path: apps/asul-servicios
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: parcial-asul
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
