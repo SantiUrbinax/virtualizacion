@@ -1,0 +1,68 @@
+﻿# Proyecto ASUL - Configuracion Grafana
+
+replicas: 1
+
+service:
+  type: ClusterIP
+  port: 80
+
+persistence:
+  enabled: true
+  type: pvc
+  size: 1Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.monitoring-asul.svc.cluster.local
+        isDefault: true
+        editable: false
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: ASUL
+        orgId: 1
+        folder: ASUL Monitoring
+        type: file
+        disableDeletion: false
+        editable: false
+        options:
+          path: /var/lib/grafana/dashboards/asul
+
+dashboards: {}
+
+deploymentStrategy:
+  type: Recreate
+
+readinessProbe:
+  httpGet:
+    path: /api/health
+    port: 3000
+  initialDelaySeconds: 30
+  timeoutSeconds: 10
+  periodSeconds: 15
+  failureThreshold: 6
+
+livenessProbe:
+  httpGet:
+    path: /api/health
+    port: 3000
+  initialDelaySeconds: 90
+  timeoutSeconds: 10
+  periodSeconds: 20
+  failureThreshold: 6
